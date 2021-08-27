@@ -1,9 +1,9 @@
 const contactsOperations = require('../../model/contacts')
-const contactSchema = require('../../validation')
+const contactJoiSchema = require('../../validation')
 
 const updateById = async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body)
+    const { error } = contactJoiSchema.validate(req.body)
     if (error) {
       return res.status(400).json({
         message: 'missing fields'
