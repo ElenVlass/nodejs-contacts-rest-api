@@ -1,3 +1,6 @@
-const contactJoiSchema = require('./contactsSchema')
+// const contactJoiSchema = require('./contactsJoiSchema')
+const joiValidation = require('./validFunction')
 
-module.exports = contactJoiSchema
+module.exports = {
+  joiValidation
+}

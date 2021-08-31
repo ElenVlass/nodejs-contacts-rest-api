@@ -1,17 +1,12 @@
-const contactsOperations = require('../../model/contacts')
-const contactJoiSchema = require('../../validation')
+const { Contact } = require('../../models')
 
 const addNew = async (req, res, next) => {
   try {
-    const { error } = contactJoiSchema.validate(req.body)
-    if (error) {
-      return res.status(400).json({
-        message: 'missing required name field'
-      })
-    }
-    const newContact = await contactsOperations.addContact(req.body)
+    const result = await Contact.create(req.body)
     res.status(201).json({
-      newContact
+      status: 'Success',
+      code: 201,
+      result
     })
   } catch (error) {
     next(error)

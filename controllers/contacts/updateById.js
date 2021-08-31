@@ -1,18 +1,13 @@
-const contactsOperations = require('../../model/contacts')
-const contactJoiSchema = require('../../validation')
+const { Contact } = require('../../models')
 
 const updateById = async (req, res, next) => {
   try {
-    const { error } = contactJoiSchema.validate(req.body)
-    if (error) {
-      return res.status(400).json({
-        message: 'missing fields'
-      })
-    }
     const { contactId } = req.params
-    const updatedContactById = await contactsOperations.updateContact(contactId, req.body)
+    const updatedContactById = await Contact.findByIdAndUpdate(contactId, req.body, { new: true })
     if (!updatedContactById) {
       return res.status(404).json({
+        status: 'Not found',
+        code: 404,
         message: `Contact ${contactId} was not found`
       })
     }
