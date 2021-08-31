@@ -11,8 +11,10 @@
   "dependencies": {
     "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "dotenv": "^10.0.0",
     "express": "4.17.1",
     "joi": "^17.4.2",
+    "mongoose": "^6.0.1",
     "morgan": "1.10.0"
   },
   "devDependencies": {
@@ -23,5 +25,21 @@
     "eslint-plugin-promise": "^4.2.1",
     "nodemon": "2.0.7",
     "uuid": "^8.3.2"
-  }
+  },
+  "description": "Использется утилита `Postman`",
+  "main": ".eslintrc.js",
+  "bin": {
+    "template": "server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElenVlass/nodejs-contacts-rest-api.git"
+  },
+  "keywords": [],
+  "author": "Elena_Vlasenko <olefelena@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElenVlass/nodejs-contacts-rest-api/issues"
+  },
+  "homepage": "https://github.com/ElenVlass/nodejs-contacts-rest-api#readme"
 }

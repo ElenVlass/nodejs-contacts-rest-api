@@ -1,10 +1,11 @@
 const { Contact } = require('../../models')
 
-const getById = async (req, res, next) => {
+async function updateStatusContact(req, res, next) {
   try {
     const { contactId } = req.params
-    const contact = await Contact.findById(contactId)
-    if (!contact) {
+    const { favorite } = req.body
+    const updatedContactById = await Contact.findByIdAndUpdate(contactId, { favorite }, { new: true })
+    if (!updatedContactById) {
       return res.status(404).json({
         status: 'Not found',
         code: 404,
@@ -12,13 +13,11 @@ const getById = async (req, res, next) => {
       })
     }
     res.status(200).json({
-      status: 'OK',
-      code: 200,
-      data: { contact }
+      updatedContactById
     })
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = getById
+module.exports = updateStatusContact
