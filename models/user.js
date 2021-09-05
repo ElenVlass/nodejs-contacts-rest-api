@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 const Joi = require('joi')
 const bcrypt = require('bcryptjs')
-const { Subscription } = require('../helper/constants')
+const { Subscription } = require('../helpers/constants')
 
 const SALT_WORK_FACTOR = 10
 const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -31,7 +31,7 @@ const userSchema = Schema({
 /* userSchema.methods.setSaltPassword = function(password) {
   this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR))
 } */
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', function(next) {
   if (this.isModified('password')) {
     this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(SALT_WORK_FACTOR))
   }

@@ -1,23 +1,18 @@
 const { Contact } = require('../../models')
+const { NotFound } = require('http-errors')
+const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
+const { CONTACT_NOT_FOUND } = require('../../helpers/error-messages')
 
 async function updateStatusContact(req, res, next) {
-  try {
-    const { contactId } = req.params
-    const { favorite } = req.body
-    const updatedContactById = await Contact.findByIdAndUpdate(contactId, { favorite }, { new: true })
-    if (!updatedContactById) {
-      return res.status(404).json({
-        status: 'Not found',
-        code: 404,
-        message: `Contact ${contactId} was not found`
-      })
-    }
-    res.status(200).json({
-      updatedContactById
-    })
-  } catch (error) {
-    next(error)
+  const { contactId } = req.params
+  const { favorite } = req.body
+  const updatedContactById = await Contact.findByIdAndUpdate(contactId, { favorite }, { new: true })
+  if (!updatedContactById) {
+    throw NotFound(CONTACT_NOT_FOUND)
   }
+  res.status(200).json({
+    updatedContactById
+  })
 }
 
-module.exports = updateStatusContact
+module.exports = asyncCtrlWrapper(updateStatusContact)

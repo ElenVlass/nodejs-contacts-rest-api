@@ -26,12 +26,12 @@ app.use((_, res) => {
 })
 
 app.use((err, _, res, __) => {
-  console.log(err.stack)
+  console.log(err)
+  const { status = 500, message = 'Server error', name = 'fail' } = err
   res.status(500).json({
-    status: 'fail',
-    code: 500,
-    message: err.message,
-    data: 'Internal Server Error',
+    status: name,
+    code: status,
+    message
   })
 })
 
