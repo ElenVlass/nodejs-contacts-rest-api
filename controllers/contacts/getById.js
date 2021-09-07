@@ -1,24 +1,24 @@
+const mongoose = require('mongoose')
 const { Contact } = require('../../models')
+const { NotFound } = require('http-errors')
+const { CONTACT_NOT_FOUND } = require('../../helpers/error-messages')
+const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
 
 const getById = async (req, res, next) => {
-  try {
-    const { contactId } = req.params
-    const contact = await Contact.findById(contactId)
-    if (!contact) {
-      return res.status(404).json({
-        status: 'Not found',
-        code: 404,
-        message: `Contact ${contactId} was not found`
-      })
-    }
-    res.status(200).json({
-      status: 'OK',
-      code: 200,
-      data: { contact }
-    })
-  } catch (error) {
-    next(error)
+  const { contactId } = req.params
+  if (!mongoose.Types.ObjectId.isValid(contactId)) {
+    throw NotFound(CONTACT_NOT_FOUND)
   }
+  const contact = await Contact.findById(contactId)
+  console.log(contact)
+  if (!contact) {
+    throw NotFound(CONTACT_NOT_FOUND)
+  }
+  res.status(200).json({
+    status: 'OK',
+    code: 200,
+    data: { contact }
+  })
 }
 
-module.exports = getById
+module.exports = asyncCtrlWrapper(getById)

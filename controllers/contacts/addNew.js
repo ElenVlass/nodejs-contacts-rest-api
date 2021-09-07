@@ -1,16 +1,15 @@
 const { Contact } = require('../../models')
+const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
 
 const addNew = async (req, res, next) => {
-  try {
-    const result = await Contact.create(req.body)
-    res.status(201).json({
-      status: 'Success',
-      code: 201,
-      result
-    })
-  } catch (error) {
-    next(error)
-  }
+  /* const result = await Contact.create(req.body) // if without authentificate */
+  const newContact = { ...req.body, owner: req.user._id }
+  const result = await Contact.create(newContact)
+  res.status(201).json({
+    status: 'Success',
+    code: 201,
+    result
+  })
 }
 
-module.exports = addNew
+module.exports = asyncCtrlWrapper(addNew)
