@@ -9,6 +9,8 @@ const validationMiddleWare = joiValidation(userJoiSchema)
 
 router.post('/signup', validationMiddleWare, controller.signup)
 router.post('/login', authentificate, validationMiddleWare, controller.login)
-router.get('/logout', authentificate, controller.logout)
+router.post('/logout', authentificate, controller.logout)
+router.get('/current', authentificate, controller.current)
+router.patch('/', authentificate, controller.subscription)
 
 module.exports = router

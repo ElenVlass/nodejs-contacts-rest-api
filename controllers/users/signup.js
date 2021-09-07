@@ -1,11 +1,9 @@
 const { User } = require('../../models')
 const { Conflict } = require('http-errors')
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 // const bcrypt = require('bcryptjs')
 const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
 const { CONFLICT } = require('../../helpers/error-messages')
-
-const { SECRET_KEY } = process.env
 
 const signup = async (req, res, next) => {
   const { email, password } = req.body
@@ -13,23 +11,20 @@ const signup = async (req, res, next) => {
   if (isAlreadyExist) {
     return next(Conflict(CONFLICT))
   }
-  /* const newUser = await User.create({ email, password })
-
-    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-    const newUser = await User.create({ email, password: hashedPassword }) */
-
+  /* const newUser = await User.create({ email, password }); const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10)); const newUser = await User.create({ email, password: hashedPassword }); newUser.setSaltPassword(password) */
   const newUser = new User({ email, password })
-  // newUser.setSaltPassword(password)
   await newUser.save()
 
-  const payload = { id: newUser._id }
-  const token = jwt.sign(payload, SECRET_KEY)
+  /* const { SECRET_KEY } = process.env; const payload = { id: newUser._id }; const token = jwt.sign(payload, SECRET_KEY) */
 
   res.status(201).json({
     status: 201,
-    code: 'success',
+    code: 'Created',
     message: 'Success registered',
-    data: { newUser, token }
+    data: {
+      email: newUser.email,
+      subscription: newUser.subscription
+    }
   })
 }
 

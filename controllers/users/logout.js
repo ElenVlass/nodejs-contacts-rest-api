@@ -1,15 +1,17 @@
-// const bcrypt = require('bcryptjs')
-// const jwt = require('jsonwebtoken')
-// const { Unauthorized } = require('http-errors')
 const { User } = require('../../models')
 const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
-// const { LOGIN_AUTH } = require('../../helpers/error-messages')
+const { Unauthorized } = require('http-errors')
+const { ANAUTORIZED } = require('../../helpers/error-messages')
 
 const logout = async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user._id, { token: null })
-  res.json({
-    status: 'OK',
-    code: 200,
+  try {
+    await User.findByIdAndUpdate(req.user._id, { token: null })
+  } catch (error) {
+    throw new Unauthorized(ANAUTORIZED)
+  }
+  res.status(204).json({
+    status: 'No Content',
+    code: 204,
     message: 'Success logout'
 
   })
