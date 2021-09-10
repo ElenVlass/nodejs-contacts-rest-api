@@ -5,6 +5,7 @@ const { ANAUTORIZED } = require('../../helpers/error-messages')
 
 const logout = async (req, res, next) => {
   try {
+    console.log(req?.user)
     await User.findByIdAndUpdate(req.user._id, { token: null })
   } catch (error) {
     throw new Unauthorized(ANAUTORIZED)

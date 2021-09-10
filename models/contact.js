@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 const Joi = require('joi')
 
 const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -26,6 +27,8 @@ const contactSchema = Schema({
     ref: 'user',
   }
 }, { versionKey: false, timestamps: true })
+
+contactSchema.plugin(mongoosePaginate)
 
 const contactJoiSchema = Joi.object({
   name: Joi.string().required(),

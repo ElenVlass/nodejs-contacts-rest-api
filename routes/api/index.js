@@ -1,7 +1,9 @@
+const router = require('express').Router()
+
 const authRouter = require('./auth')
 const contactsRouter = require('./contacts')
 
-module.exports = {
-  contactsRouter,
-  authRouter
-}
+router.use('/contacts', contactsRouter)
+router.use('/users', authRouter)
+
+module.exports = router

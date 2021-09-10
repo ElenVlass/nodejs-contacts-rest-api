@@ -11,12 +11,10 @@ const signup = async (req, res, next) => {
   if (isAlreadyExist) {
     return next(Conflict(CONFLICT))
   }
-  /* const newUser = await User.create({ email, password }); const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10)); const newUser = await User.create({ email, password: hashedPassword }); newUser.setSaltPassword(password) */
   const newUser = new User({ email, password })
   await newUser.save()
-
+  /* const newUser = await User.create({ email, password }); const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10)); const newUser = await User.create({ email, password: hashedPassword }); newUser.setSaltPassword(password) */
   /* const { SECRET_KEY } = process.env; const payload = { id: newUser._id }; const token = jwt.sign(payload, SECRET_KEY) */
-
   res.status(201).json({
     status: 201,
     code: 'Created',
