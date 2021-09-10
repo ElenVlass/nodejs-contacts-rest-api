@@ -1,16 +1,15 @@
+const { LOGIN_AUTH } = require('../../helpers/error-messages')
 const jwt = require('jsonwebtoken')
 const { Unauthorized } = require('http-errors')
 const { User } = require('../../models')
 const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
-const { LOGIN_AUTH } = require('../../helpers/error-messages')
 
 const login = async (req, res, next) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
   const isPasswordCorrect = await user?.comparePassword(password)
   if (!user || !isPasswordCorrect) {
-    // throw new Unauthorized(LOGIN_AUTH)
-    throw new Unauthorized('Привет, я ошибка!😈')
+    throw new Unauthorized(LOGIN_AUTH)
   }
 
   const payload = { id: user._id }

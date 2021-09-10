@@ -18,27 +18,3 @@ const authentificate = async (req, res, next) => {
 }
 
 module.exports = authentificate
-
-/* const jwt = require('jsonwebtoken')
-const { SECRET_KEY } = process.env
-const { LOGIN_AUTH } = require('../helpers/error-messages')
-const { User } = require('../models')
-
-const authentificate = async (req, _, next) => {
-  try {
-    const [bearer, token] = req.headers.authorization.split(' ')
-    if (bearer !== 'Bearer') {
-      throw new Unauthorized(LOGIN_AUTH)
-    };
-    const { id } = jwt.verify(token, SECRET_KEY)
-    const user = await User.findOne({ token })
-    if (id !== String(user._id)) {
-      throw new Unauthorized(LOGIN_AUTH)
-    }
-    req.user = user
-    next()
-  } catch (error) {
-    next(error)
-  }
-}
-module.exports = authentificate */
