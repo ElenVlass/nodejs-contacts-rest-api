@@ -10,7 +10,6 @@ const getById = async (req, res, next) => {
     throw NotFound(CONTACT_NOT_FOUND)
   }
   const contact = await Contact.findById(contactId)
-  console.log(contact)
   if (!contact) {
     throw NotFound(CONTACT_NOT_FOUND)
   }

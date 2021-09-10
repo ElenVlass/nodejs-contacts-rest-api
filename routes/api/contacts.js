@@ -8,13 +8,13 @@ const authentificate = require('../../middleware/authentificate')
 const validationMiddleWare = joiValidation(contactJoiSchema)
 
 router
-  .get('/', controller.getList)
+  .get('/', authentificate, controller.getList)
   .post('/', authentificate, validationMiddleWare, controller.addNew)
 
 router
-  .get('/:contactId', controller.getById)
-  .put('/:contactId', validationMiddleWare, controller.updateById)
-  .delete('/:contactId', controller.remove)
+  .get('/:contactId', authentificate, controller.getById)
+  .put('/:contactId', authentificate, validationMiddleWare, controller.updateById)
+  .delete('/:contactId', authentificate, controller.remove)
 
 router.patch('/:contactId/favorite', controller.updateStatusContact)
 

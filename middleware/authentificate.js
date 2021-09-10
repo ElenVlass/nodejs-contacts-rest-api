@@ -1,12 +1,30 @@
-const jwt = require('jsonwebtoken')
+require('../config/passport')
+const passport = require('passport')
 const { Unauthorized } = require('http-errors')
-const asyncWrapper = require('../helpers/ctrlAsyncWrapper')
+const { ANAUTORIZED } = require('../helpers/error-messages')
+
+const authentificate = async (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user) => {
+    let token = null
+    if (req.get('Authorization')) {
+      token = req.get('Authorization').split(' ')[1]
+    }
+    if (!user || err || token !== user.token) {
+      throw new Unauthorized(ANAUTORIZED)
+    }
+    req.user = user
+    return next()
+  })(req, res, next)
+}
+
+module.exports = authentificate
+
+/* const jwt = require('jsonwebtoken')
+const { SECRET_KEY } = process.env
 const { LOGIN_AUTH } = require('../helpers/error-messages')
 const { User } = require('../models')
 
-const { SECRET_KEY } = process.env
-
-const authenticate = async (req, _, next) => {
+const authentificate = async (req, _, next) => {
   try {
     const [bearer, token] = req.headers.authorization.split(' ')
     if (bearer !== 'Bearer') {
@@ -23,5 +41,4 @@ const authenticate = async (req, _, next) => {
     next(error)
   }
 }
-
-module.exports = asyncWrapper(authenticate)
+module.exports = authentificate */
