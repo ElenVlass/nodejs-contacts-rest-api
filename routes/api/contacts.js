@@ -3,7 +3,7 @@ const router = require('express').Router()
 const { contacts: controller } = require('../../controllers')
 const { joiValidation } = require('../../validation')
 const { contactJoiSchema } = require('../../models/contact')
-const authentificate = require('../../middlewares/authentificate')
+const { authentificate } = require('../../middlewares')
 
 const validationMiddleWare = joiValidation(contactJoiSchema)
 
