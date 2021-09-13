@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit')
 const { users: controller } = require('../../controllers')
 const { joiValidation } = require('../../validation')
 const { userJoiSchema } = require('../../models/user')
-const authentificate = require('../../middleware/authentificate')
+const authentificate = require('../../middlewares/authentificate')
 
 const validationMiddleWare = joiValidation(userJoiSchema)
 
