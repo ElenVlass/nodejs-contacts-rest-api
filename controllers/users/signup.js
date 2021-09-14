@@ -1,7 +1,8 @@
+const fs = require('fs/promises')
+const path = require('path')
 const { User } = require('../../models')
 const { Conflict } = require('http-errors')
-// const jwt = require('jsonwebtoken')
-// const bcrypt = require('bcryptjs')
+const gravatar = require('gravatar')
 const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
 const { CONFLICT } = require('../../helpers/error-messages')
 
@@ -11,17 +12,23 @@ const signup = async (req, res, next) => {
   if (isAlreadyExist) {
     return next(Conflict(CONFLICT))
   }
-  const newUser = new User({ email, password })
+
+  const defaultAvatar = gravatar.url(email, { d: 'wavatar' }, true)
+  const newUser = new User({ email, password, avatarURL: defaultAvatar })
   await newUser.save()
-  /* const newUser = await User.create({ email, password }); const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10)); const newUser = await User.create({ email, password: hashedPassword }); newUser.setSaltPassword(password) */
-  /* const { SECRET_KEY } = process.env; const payload = { id: newUser._id }; const token = jwt.sign(payload, SECRET_KEY) */
+
+  const avatarDir = path.join(__dirname, '../../', 'public/avatars')
+  const avatarPathName = path.join(avatarDir, newUser.id)
+  await fs.mkdir(avatarPathName)
+
   res.status(201).json({
     status: 201,
     code: 'Created',
     message: 'Success registered',
     data: {
       email: newUser.email,
-      subscription: newUser.subscription
+      subscription: newUser.subscription,
+      image: newUser.avatarURL
     }
   })
 }

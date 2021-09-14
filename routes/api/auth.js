@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit')
 const { users: controller } = require('../../controllers')
 const { joiValidation } = require('../../validation')
 const { userJoiSchema } = require('../../models/user')
-const authentificate = require('../../middleware/authentificate')
+const { authentificate, uploadImage } = require('../../middlewares')
 
 const validationMiddleWare = joiValidation(userJoiSchema)
 
@@ -20,5 +20,6 @@ router.post('/login', authentificate, validationMiddleWare, controller.login)
 router.post('/logout', authentificate, controller.logout)
 router.get('/current', authentificate, controller.current)
 router.patch('/', authentificate, controller.subscription)
+router.patch('/avatars', authentificate, uploadImage.single('avatar'), controller.updateAvatar)
 
 module.exports = router
