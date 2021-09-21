@@ -16,6 +16,7 @@ const createAccountLimiter = rateLimit({
 })
 
 router.post('/signup', createAccountLimiter, validationMiddleWare, controller.signup)
+router.get('/verify/:verificationToken', controller.emailVerification)
 router.post('/login', authentificate, validationMiddleWare, controller.login)
 router.post('/logout', authentificate, controller.logout)
 router.get('/current', authentificate, controller.current)
