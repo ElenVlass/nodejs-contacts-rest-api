@@ -6,7 +6,7 @@ const gravatar = require('gravatar')
 const { v4 } = require('uuid')
 const asyncCtrlWrapper = require('../../helpers/ctrlAsyncWrapper')
 const { CONFLICT } = require('../../helpers/error-messages')
-const sendEmail = require('../../helpers/emailSendler')
+const sendEmail = require('../../helpers/sendEmail')
 
 const signup = async (req, res, next) => {
   const { email, password } = req.body
