@@ -11,7 +11,6 @@ const spareEmailVerification = async(req, res, next) => {
   const { email } = req.body
   try {
     const user = await User.findOne({ email })
-    // console.log(user)
     if (user.verify) {
       throw BadRequest('Verification has already been passed')
     } else {
